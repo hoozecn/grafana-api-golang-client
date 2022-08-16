@@ -316,6 +316,20 @@ func (c *Client) NewDataSource(s *DataSource) (int64, error) {
 	return result.ID, err
 }
 
+// NewDataSource creates a new Grafana data source from raw data.
+func (c *Client) NewDataSourceFromRawData(data []byte) (int64, error) {
+	result := struct {
+		ID int64 `json:"id"`
+	}{}
+
+	err := c.request("POST", "/api/datasources", nil, bytes.NewBuffer(data), &result)
+	if err != nil {
+		return 0, err
+	}
+
+	return result.ID, err
+}
+
 // UpdateDataSource updates a Grafana data source.
 func (c *Client) UpdateDataSource(s *DataSource) error {
 	path := fmt.Sprintf("/api/datasources/%d", s.ID)
