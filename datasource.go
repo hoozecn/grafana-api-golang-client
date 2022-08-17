@@ -341,6 +341,12 @@ func (c *Client) UpdateDataSource(s *DataSource) error {
 	return c.request("PUT", path, nil, bytes.NewBuffer(data), nil)
 }
 
+// UpdateDataSource updates a Grafana data source.
+func (c *Client) UpdateDataSourceFromRawData(id int64, data []byte) error {
+	path := fmt.Sprintf("/api/datasources/%d", id)
+	return c.request("PUT", path, nil, bytes.NewBuffer(data), nil)
+}
+
 // DataSource fetches and returns the Grafana data source whose ID it's passed.
 func (c *Client) DataSource(id int64) (*DataSource, error) {
 	path := fmt.Sprintf("/api/datasources/%d", id)
